@@ -14,7 +14,7 @@ class BooksApp extends React.Component {
     BooksAPI.getAll().then(books => this.setState({ books: books }));
   }
 
-  render() {
+render() {
     const { books } = this.state;
     return (
       <Router>
