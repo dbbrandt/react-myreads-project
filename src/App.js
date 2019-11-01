@@ -7,15 +7,25 @@ import Bookcase from "./Bookcase";
 
 class BooksApp extends React.Component {
   state = {
-    books: []
+    books: [],
+    searchResults: []
   };
 
   componentDidMount() {
     BooksAPI.getAll().then(books => this.setState({ books: books }));
   }
 
+  /* Handle search and store state at the top level so user can flip back to add and see prior search results */
+  handleSearch = query => {
+    BooksAPI.search(query).then(books => {
+      this.setState({
+        searchResults: books
+      });
+    });
+  };
+
   render() {
-    const { books } = this.state;
+    const { books, searchResults } = this.state;
     return (
       <Router>
         <div className="app">
@@ -24,7 +34,16 @@ class BooksApp extends React.Component {
             path="/"
             render={props => <Bookcase {...props} books={books} />}
           />
-          <Route path="/search" render={props => <AddBooks {...props} />} />
+          <Route
+            path="/search"
+            render={props => (
+              <AddBooks
+                {...props}
+                books={searchResults}
+                onSubmitSearch={query => this.handleSearch(query)}
+              />
+            )}
+          />
         </div>
       </Router>
     );
