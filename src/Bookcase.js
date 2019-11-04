@@ -13,10 +13,10 @@ const Bookcase = props => {
       <div className="list-books-content">
         {SHELVES.map(
           (shelf, index) =>
-            shelf.label !== "none" && (
+            shelf.value !== "none" && (
               <Bookshelf
                 key={index}
-                name={shelf.label}
+                shelf={shelf}
                 books={books}
                 onChangeShelf={onChangeShelf}
               />
