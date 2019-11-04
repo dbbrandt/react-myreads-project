@@ -24,8 +24,12 @@ class BooksApp extends Component {
     });
   };
 
+  // Move the book to a new shelf or remove it.
   handleShelfChange = (shelf, bookId) => {
-    console.log(`Update book: ${bookId} set shelf to ${shelf}`);
+    const books = this.state.books;
+    const index = this.state.books.findIndex(book => book.id === bookId);
+    shelf ===  'none' ? books.splice(index,1) : books[index].shelf = shelf;
+    this.setState({ books: books });
   };
 
   render() {
