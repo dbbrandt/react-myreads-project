@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import * as BooksAPI from "./BooksAPI";
+import PropTypes from "prop-types";
 import Book from "./Book";
 import SearchBar from "./SearchBar";
 
 class AddBooks extends Component {
   render() {
-    const { books, history } = this.props;
+    const { books, history, onChangeShelf } = this.props;
     const count = books.length;
     return (
       <div className="search-books">
@@ -18,7 +18,7 @@ class AddBooks extends Component {
             {count > 0 ? (
               books.map((book, index) => (
                 <li key={index}>
-                  <Book book={book} />
+                  <Book book={book} onChangeShelf={onChangeShelf} />
                 </li>
               ))
             ) : (
@@ -30,5 +30,10 @@ class AddBooks extends Component {
     );
   }
 }
+
+AddBooks.prototypes = {
+  books: PropTypes.array.isRequired,
+  onChangeShelf: PropTypes.func.isRequired
+};
 
 export default AddBooks;

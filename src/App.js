@@ -1,11 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
 import { Route, BrowserRouter as Router } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI";
 import "./App.css";
 import AddBooks from "./AddBooks";
 import Bookcase from "./Bookcase";
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   state = {
     books: [],
     searchResults: []
@@ -24,6 +24,10 @@ class BooksApp extends React.Component {
     });
   };
 
+  handleShelfChange = (shelf, bookId) => {
+    console.log(`Update book: ${bookId} set shelf to ${shelf}`);
+  };
+
   render() {
     const { books, searchResults } = this.state;
     return (
@@ -32,7 +36,13 @@ class BooksApp extends React.Component {
           <Route
             exact
             path="/"
-            render={props => <Bookcase {...props} books={books} />}
+            render={props => (
+              <Bookcase
+                {...props}
+                books={books}
+                onChangeShelf={this.handleShelfChange}
+              />
+            )}
           />
           <Route
             path="/search"
@@ -41,6 +51,7 @@ class BooksApp extends React.Component {
                 {...props}
                 books={searchResults}
                 onSubmitSearch={query => this.handleSearch(query)}
+                onChangeShelf={this.handleShelfChange}
               />
             )}
           />
