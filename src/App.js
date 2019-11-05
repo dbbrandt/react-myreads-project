@@ -24,12 +24,36 @@ class BooksApp extends Component {
     });
   };
 
-  // Move the book to a new shelf or remove it.
+
+  /* This function handle both existing bookcase changes and new books.
+     We want the search results to reflect the same shelf categorization
+     as the bookshelf, therefore, we need to check both book arrays
+     and update the shelf and add to the bookshelf for newly added book.
+   */
   handleShelfChange = (shelf, bookId) => {
-    const books = this.state.books;
-    const index = this.state.books.findIndex(book => book.id === bookId);
-    shelf ===  'none' ? books.splice(index,1) : books[index].shelf = shelf;
-    this.setState({ books: books });
+    console.log(`${shelf} - ${bookId}`);
+    const { books, searchResults } = this.state;
+
+    // Find the book in the current bookshelf
+    const book = books.find(book => book.id === bookId);
+
+    // Find the book in the search results
+    const searchBook = searchResults.find(book => book.id === bookId);
+    // If found in the search results update the shelf
+    if (searchBook) {
+      searchBook.shelf = shelf;
+      // Add to the bookshelf if newly categorized.
+      if (!book) {
+        books.push(searchBook);
+      }
+    }
+
+    // Update self for books already in bookshelf.
+    if (book) {
+      book.shelf = shelf;
+    }
+
+    this.setState({ books: books, searchResults: searchResults });
   };
 
   render() {
@@ -55,7 +79,7 @@ class BooksApp extends Component {
                 {...props}
                 books={searchResults}
                 onSubmitSearch={query => this.handleSearch(query)}
-                onChangeShelf={this.handleShelfChange}
+                onAddBook={this.handleShelfChange}
               />
             )}
           />

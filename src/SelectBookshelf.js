@@ -17,30 +17,25 @@ class SelectBookshelf extends Component {
     };
   }
 
-  componentDidMount() {
-    this.setState({
-      selectedOption: this.props.book.shelf
-    });
-  }
-
   handleChange = event => {
     const selectedOption = event.target.value;
-    console.log(selectedOption);
     const bookId = this.props.book.id;
     this.setState({ selectedOption });
     this.props.onChangeShelf(selectedOption, bookId);
   };
 
   render() {
-    const currentShelf = this.props.book.shelf;
+    const currentShelf = this.props.book.shelf || "none";
     return (
       <div className="book-shelf-changer">
         <select onChange={this.handleChange} defaultValue={currentShelf}>
           <option key="move" disabled>
             Move to...
           </option>
-          {SHELVES.map( (shelf, index)  => (
-            <option key={index} value={shelf.value}>{shelf.label}</option>
+          {SHELVES.map((shelf, index) => (
+            <option key={index} value={shelf.value}>
+              {shelf.label}
+            </option>
           ))}
         </select>
       </div>
