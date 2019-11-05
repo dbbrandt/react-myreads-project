@@ -16,7 +16,7 @@ class BooksApp extends Component {
     BooksAPI.getAll()
       .then(books => this.setState({ books: books }))
       .then(() => {
-          this.setState({ isLoading: false });
+        this.setState({ isLoading: false });
       });
   }
 
@@ -46,7 +46,10 @@ class BooksApp extends Component {
       searchBook.shelf = shelf;
       // If new book,  add to bookshelf.
       if (!book) {
-        books.push(searchBook);
+        BooksAPI.update(searchBook, shelf).then(res => {
+          console.log(`Update result: ${res}`);
+          books.push(searchBook);
+        });
       }
     } else {
       // If existing book, update self.
