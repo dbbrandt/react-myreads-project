@@ -8,17 +8,12 @@ class SearchBar extends Component {
     };
   }
 
-  onSubmit = e => {
-    e.preventDefault();
-    const { query } = this.state;
+  onChange = event => {
+    const query = event.target.value;
+    this.setState({ query: query });
     if (query !== "") {
       this.props.onSubmitSearch(query);
-      this.setState({ query: "" });
     }
-  };
-
-  onChange = e => {
-    this.setState({ query: e.target.value });
   };
 
   render() {
@@ -29,7 +24,7 @@ class SearchBar extends Component {
           Close
         </button>
         <div className="search-books-input-wrapper">
-          <form onSubmit={this.onSubmit}>
+          <form>
             <input
               type="text"
               placeholder="Search by title or author"
