@@ -42,16 +42,18 @@ class BooksApp extends Component {
     // If book found in bookshelf,  update the shelf.
     if (book) {
       book.shelf = shelf;
-    // If adding a book, append to bookshelf.
+      // If adding a book, append to bookshelf.
     } else {
       book = modifiedBook;
       book.shelf = shelf;
       books.push(book);
     }
 
-    BooksAPI.update(book, shelf).then(res => {
-      console.log(`Update result: ${res}`);
-    });
+    BooksAPI.update(book, shelf).then(() => null,
+      res => {
+        alert("Failed to save change!");
+      }
+    );
 
     this.setState({ books: books, searchResults: searchResults });
   };
