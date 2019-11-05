@@ -9,7 +9,7 @@ interface to lookup books.
 
 To install and run the app:
 * Clone the repo
-* Change directory to reactnd-projects-myreads-starter
+* Change directory to reactnd-myreads-project
 * install all project dependencies with `npm install` 
 * start the development server with `npm start`
 
