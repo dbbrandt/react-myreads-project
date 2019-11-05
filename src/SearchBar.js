@@ -24,7 +24,7 @@ class SearchBar extends Component {
           Close
         </button>
         <div className="search-books-input-wrapper">
-          <form>
+          <form onSubmit={e => e.preventDefault()}>
             <input
               type="text"
               placeholder="Search by title or author"

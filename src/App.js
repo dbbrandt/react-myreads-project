@@ -2,17 +2,22 @@ import React, { Component } from "react";
 import { Route, BrowserRouter as Router } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI";
 import "./App.css";
-import AddBooks from "./AddBooks";
+import SearchBooks from "./SearchBooks";
 import Bookcase from "./Bookcase";
 
 class BooksApp extends Component {
   state = {
     books: [],
-    searchResults: []
+    searchResults: [],
+    isLoading: true
   };
 
   componentDidMount() {
-    BooksAPI.getAll().then(books => this.setState({ books: books }));
+    BooksAPI.getAll()
+      .then(books => this.setState({ books: books }))
+      .then(() => {
+          this.setState({ isLoading: false });
+      });
   }
 
   /* Handle search and store state at the top level so user can flip back to add and see prior search results */
@@ -26,63 +31,66 @@ class BooksApp extends Component {
 
   /* This function handle both existing bookcase changes and new books.
      We want the search results to reflect the same shelf categorization
-     as the bookshelf, therefore, we need to check both book arrays
-     and update the shelf and add to the bookshelf for newly added book.
+     as the bookshelf, therefore, we need to check both state arrays
+     and update the shelf and/or add to the bookshelf for newly added book.
    */
   handleShelfChange = (shelf, bookId) => {
-    console.log(`${shelf} - ${bookId}`);
     const { books, searchResults } = this.state;
 
-    // Find the book in the current bookshelf
+    // Find the book in the current bookshelf and search results
     const book = books.find(book => book.id === bookId);
-
-    // Find the book in the search results
     const searchBook = searchResults.find(book => book.id === bookId);
-    // If found in the search results update the shelf
+
     if (searchBook) {
+      // If found in the search results update the search results shelf.
       searchBook.shelf = shelf;
-      // Add to the bookshelf if newly categorized.
+      // If new book,  add to bookshelf.
       if (!book) {
         books.push(searchBook);
       }
-    }
-
-    // Update self for books already in bookshelf.
-    if (book) {
-      book.shelf = shelf;
+    } else {
+      // If existing book, update self.
+      if (book) {
+        book.shelf = shelf;
+      }
     }
 
     this.setState({ books: books, searchResults: searchResults });
   };
 
   render() {
-    const { books, searchResults } = this.state;
+    const { books, searchResults, isLoading } = this.state;
     return (
       <Router>
-        <div className="app">
-          <Route
-            exact
-            path="/"
-            render={props => (
-              <Bookcase
-                {...props}
-                books={books}
-                onChangeShelf={this.handleShelfChange}
-              />
-            )}
-          />
-          <Route
-            path="/search"
-            render={props => (
-              <AddBooks
-                {...props}
-                books={searchResults}
-                onSubmitSearch={query => this.handleSearch(query)}
-                onAddBook={this.handleShelfChange}
-              />
-            )}
-          />
-        </div>
+        {isLoading ? (
+          <div className="loader">{false}</div>
+        ) : (
+          <div className="app">
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <Bookcase
+                  {...props}
+                  books={books}
+                  onChangeShelf={this.handleShelfChange}
+                />
+              )}
+            />
+            <Route
+              path="/search"
+              render={props => (
+                <SearchBooks
+                  {...props}
+                  searchResults={searchResults}
+                  books={books}
+                  onSubmitSearch={query => this.handleSearch(query)}
+                  onAddBook={this.handleShelfChange}
+                />
+              )}
+            />
+          </div>
+        )}
       </Router>
     );
   }

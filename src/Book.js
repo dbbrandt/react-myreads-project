@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import SelectBookshelf from "./SelectBookshelf";
 
 const Book = props => {
-  const { book, onChangeShelf } = props;
+  const { book, shelf, onChangeShelf } = props;
   const imageLinks = book.imageLinks;
-  console.log(book.title);
-  // remove covers for books with missing imageLinks
+
+  // handle covers for books with missing imageLinks
   const thumbnail = Boolean(imageLinks) ? `url(${imageLinks.thumbnail})` : null;
   return (
     <div className="book">
@@ -20,7 +20,10 @@ const Book = props => {
             backgroundImage: `${thumbnail}`
           }}
         />
-        <SelectBookshelf book={book} onChangeShelf={onChangeShelf} />
+        <SelectBookshelf
+          book={book}
+          shelf={shelf}
+          onChangeShelf={onChangeShelf} />
       </div>
       <div className="book-title">{book.title}</div>
       <div className="book-authors">{book.authors}</div>
@@ -30,6 +33,7 @@ const Book = props => {
 
 SelectBookshelf.propTypes = {
   book: PropTypes.object.isRequired,
+  shelf: PropTypes.string.isRequired,
   onChangeShelf: PropTypes.func.isRequired
 };
 

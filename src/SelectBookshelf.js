@@ -10,25 +10,15 @@ export const SHELVES = [
 ];
 
 class SelectBookshelf extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedOption: null
-    };
-  }
 
   handleChange = event => {
-    const selectedOption = event.target.value;
-    const bookId = this.props.book.id;
-    this.setState({ selectedOption });
-    this.props.onChangeShelf(selectedOption, bookId);
+    this.props.onChangeShelf(event.target.value, this.props.book.id);
   };
 
   render() {
-    const currentShelf = this.props.book.shelf || "none";
     return (
       <div className="book-shelf-changer">
-        <select onChange={this.handleChange} defaultValue={currentShelf}>
+        <select onChange={this.handleChange} defaultValue={this.props.shelf}>
           <option key="move" disabled>
             Move to...
           </option>
@@ -45,6 +35,7 @@ class SelectBookshelf extends Component {
 
 SelectBookshelf.propTypes = {
   book: PropTypes.object.isRequired,
+  shelf: PropTypes.string.isRequired,
   onChangeShelf: PropTypes.func.isRequired
 };
 

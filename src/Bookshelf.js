@@ -13,7 +13,11 @@ const Bookshelf = props => {
             (book, index) =>
               book.shelf === shelf.value && (
                 <li key={index}>
-                  <Book book={book} onChangeShelf={onChangeShelf} />
+                  <Book
+                    book={book}
+                    shelf={book.shelf}
+                    onChangeShelf={onChangeShelf}
+                  />
                 </li>
               )
           )}
@@ -24,8 +28,8 @@ const Bookshelf = props => {
 };
 
 Bookshelf.propTypes = {
-  shelf: PropTypes.object.isRequired,
   books: PropTypes.array.isRequired,
+  shelf: PropTypes.object.isRequired,
   onChangeShelf: PropTypes.func.isRequired
 };
 
