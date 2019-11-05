@@ -12,7 +12,7 @@ export const SHELVES = [
 class SelectBookshelf extends Component {
 
   handleChange = event => {
-    this.props.onChangeShelf(event.target.value, this.props.book.id);
+    this.props.onChangeShelf(event.target.value, this.props.book);
   };
 
   render() {
