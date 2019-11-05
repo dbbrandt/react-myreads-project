@@ -24,7 +24,6 @@ class BooksApp extends Component {
     });
   };
 
-
   /* This function handle both existing bookcase changes and new books.
      We want the search results to reflect the same shelf categorization
      as the bookshelf, therefore, we need to check both book arrays

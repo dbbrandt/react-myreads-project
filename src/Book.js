@@ -5,6 +5,10 @@ import SelectBookshelf from "./SelectBookshelf";
 
 const Book = props => {
   const { book, onChangeShelf } = props;
+  const imageLinks = book.imageLinks;
+  console.log(book.title);
+  // remove covers for books with missing imageLinks
+  const thumbnail = Boolean(imageLinks) ? `url(${imageLinks.thumbnail})` : null;
   return (
     <div className="book">
       <div className="book-top">
@@ -13,10 +17,9 @@ const Book = props => {
           style={{
             width: 128,
             height: 193,
-            backgroundImage: `url(${book.imageLinks.thumbnail})`
+            backgroundImage: `${thumbnail}`
           }}
         />
-        {/*{console.log(book)}*/}
         <SelectBookshelf book={book} onChangeShelf={onChangeShelf} />
       </div>
       <div className="book-title">{book.title}</div>
