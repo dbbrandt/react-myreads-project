@@ -35,7 +35,7 @@ class BooksApp extends Component {
      bookshelf will have changes applied.
    */
   handleShelfChange = (shelf, modifiedBook) => {
-    const { books, searchResults } = this.state;
+    const { books } = this.state;
 
     // Find the book in the current bookshelf
     let book = books.find(b => b.id === modifiedBook.id);
@@ -51,13 +51,9 @@ class BooksApp extends Component {
     }
 
     BooksAPI.update(book, shelf).then(
-      () => null,
-      res => {
-        alert("Failed to save change!");
-      }
+      () => this.setState({ books: books }),
+      () => alert("Failed to save change!")
     );
-
-    this.setState({ books: books, searchResults: searchResults });
   };
 
   render() {
@@ -65,10 +61,7 @@ class BooksApp extends Component {
     return (
       <Router>
         {isLoading ? (
-          <AtomSpinner className="loader"
-                       color='#000000'
-                       size={200}
-          />
+          <AtomSpinner className="loader" color="#000000" size={200} />
         ) : (
           <div className="app">
             <Route
@@ -90,7 +83,7 @@ class BooksApp extends Component {
                   searchResults={searchResults}
                   books={books}
                   onSubmitSearch={query => this.handleSearch(query)}
-                  onAddBook={this.handleShelfChange}
+                  onChangeShelf={this.handleShelfChange}
                 />
               )}
             />
