@@ -67,7 +67,6 @@ class BooksApp extends Component {
         {isLoading ? (
           <AtomSpinner className="loader" color="#000000" size="200" />
         ) : (
-          // <div className="loader">{false}</div>
           <div className="app">
             <Route
               exact
