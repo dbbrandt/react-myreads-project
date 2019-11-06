@@ -5,7 +5,13 @@ import SearchBar from "./SearchBar";
 
 class SearchBooks extends Component {
   render() {
-    const { books, searchResults, history, onAddBook, onSubmitSearch } = this.props;
+    const {
+      books,
+      searchResults,
+      history,
+      onAddBook,
+      onSubmitSearch
+    } = this.props;
     return (
       <div className="search-books">
         <SearchBar
