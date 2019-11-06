@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "eslint": "6.5.1",
     "@bit/bondz.react-epic-spinners.atom-spinner": "^0.3.0",
     "bit-bin": "^14.4.3",
     "prettier": "^1.18.2",
