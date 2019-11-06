@@ -4,6 +4,7 @@ import * as BooksAPI from "./BooksAPI";
 import "./App.css";
 import SearchBooks from "./SearchBooks";
 import Bookcase from "./Bookcase";
+import AtomSpinner from "@bit/bondz.react-epic-spinners.atom-spinner";
 
 class BooksApp extends Component {
   state = {
@@ -49,7 +50,8 @@ class BooksApp extends Component {
       books.push(book);
     }
 
-    BooksAPI.update(book, shelf).then(() => null,
+    BooksAPI.update(book, shelf).then(
+      () => null,
       res => {
         alert("Failed to save change!");
       }
@@ -63,8 +65,9 @@ class BooksApp extends Component {
     return (
       <Router>
         {isLoading ? (
-          <div className="loader">{false}</div>
+          <AtomSpinner className="loader" color="#000000" size="200" />
         ) : (
+          // <div className="loader">{false}</div>
           <div className="app">
             <Route
               exact
